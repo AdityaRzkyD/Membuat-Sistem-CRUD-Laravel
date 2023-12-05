@@ -16,6 +16,11 @@ class ControllerBarang extends Controller
         //
     }
 
+    public function indexdua()
+    {
+        return view('Update');
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -68,7 +73,7 @@ class ControllerBarang extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {
+    {   
         //
     }
 
@@ -77,6 +82,31 @@ class ControllerBarang extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $data = $request->all();
+
+        $diskon = 0;
+        $harga_jual_setelah_diskon = 0;
+
+        if ($data['harga'] >= 100000 && $data['harga'] < 200000) {
+            $diskon = 10;
+        } else if ($data['harga'] >= 200000 && $data['harga'] < 500000) {
+            $diskon = 20;
+        } else if ($data['harga'] >= 500000) {
+            $diskon = 50;
+        }
+
+        $harga_jual_setelah_diskon = $data['harga'] * ((100 - $diskon) / 100);
+
+        $form = $request->update();
+        $form->kode = $data['kode'];
+        $form->nama = $data['nama'];
+        $form->jenis = $data['jenis'];
+        $form->qty = $data['qty'];
+        $form->harga = $harga_jual_setelah_diskon;
+
+        $form = ModelBarang::find($id)->update($data);
+
+        return view('hasil', compact('data', 'diskon', 'harga_jual_setelah_diskon'));
         //
     }
 

@@ -25,6 +25,7 @@
 </head>
 <body>
   @yield('Barang')
+  @yield('Update')
 
   <!-- plugins:js -->
   <script src="{{ asset('/Template/vendors/js/vendor.bundle.base.js') }}"></script>

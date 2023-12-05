@@ -36,5 +36,6 @@
             <td>{{ $harga_jual_setelah_diskon }}</td>
         </tr>
     </table>
+    <button type="submit" class="update">Update</button>
 </body>
 </html>

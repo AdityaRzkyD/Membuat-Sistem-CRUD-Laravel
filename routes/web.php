@@ -20,3 +20,5 @@ Route::get('/', function () {
 
 Route::get('/BarangInput',[ControllerBarang::class, 'index']);
 Route::post('/barang/totalharga',[ControllerBarang::class, 'store']);
+Route::get('/barangupdate',[ControllerBarang::class, 'indexdua']);
+Route::post('/barang/hasilupdate',[ControllerBarang::class, 'update']);
