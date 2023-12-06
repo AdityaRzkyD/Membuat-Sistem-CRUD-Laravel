@@ -9,33 +9,29 @@
     <table>
         <tr>
             <th>Kode Barang</th>
-            <td>{{ $data['kode'] }}</td>
-        </tr>
-        <tr>
             <th>Nama Barang</th>
-            <td>{{ $data['nama'] }}</td>
-        </tr>
-        <tr>
             <th>Jenis Barang</th>
-            <td>{{ $data['jenis'] }}</td>
-        </tr>
-        <tr>
-            <th>Jumlah</th>
-            <td>{{ $data['qty'] }}</td>
-        </tr>
-        <tr>
+            <th>Quantity</th>
             <th>Harga Jual</th>
+            <th>Total Harga</th>
+            <th>Potongan Harga</th>
+            <th>Total Bayar</th>
+            <th>Edit</th>
+        </tr>
+        @foreach ($hasill as $data)
+        <tr>
+            <td>{{ $data['kode'] }}</td>
+            <td>{{ $data['nama'] }}</td>
+            <td>{{ $data['jenis'] }}</td>
+            <td>{{ $data['qty'] }}</td>
             <td>{{ $data['harga'] }}</td>
+            <td>{{ $data['hargatotal'] }}</td>
+            <td>{{ $data['diskon'] }}</td>
+            <td>{{ $data['total'] }}</td>
+            <td><a href="/barang/Update/{{ $data['id'] }}">Edit</a></td>
+            <td><a href="/barang/delete/{{ $data['id'] }}">Delete</a></td>
         </tr>
-        <tr>
-            <th>Diskon</th>
-            <td>{{ $diskon }}%</td>
-        </tr>
-        <tr>
-            <th>Harga Setelah Diskon</th>
-            <td>{{ $harga_jual_setelah_diskon }}</td>
-        </tr>
+        @endforeach
     </table>
-    <button type="submit" class="update">Update</button>
 </body>
 </html>

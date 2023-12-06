@@ -9,11 +9,16 @@ class ModelBarang extends Model
 {
     use HasFactory;
 
+    protected $table = 'model_barangs';
+    protected $primary_key = 'id';
     protected $fillable = [
         'kode',
         'nama',
         'jenis',
         'qty',
         'harga',
+        'hargatotal',
+        'diskon',
+        'total',
     ];
 }

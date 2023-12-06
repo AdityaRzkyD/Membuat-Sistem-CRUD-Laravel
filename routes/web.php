@@ -15,10 +15,10 @@ use App\Http\Controllers\ControllerBarang;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('Barang');
 });
 
-Route::get('/BarangInput',[ControllerBarang::class, 'index']);
 Route::post('/barang/totalharga',[ControllerBarang::class, 'store']);
-Route::get('/barangupdate',[ControllerBarang::class, 'indexdua']);
-Route::post('/barang/hasilupdate',[ControllerBarang::class, 'update']);
+Route::get('/barang/Update/{id}',[ControllerBarang::class, 'edit']);
+Route::put('/barang/hasil/{id}',[ControllerBarang::class, 'update']);
+Route::get('/barang/delete/{id}',[ControllerBarang::class, 'destroy']);

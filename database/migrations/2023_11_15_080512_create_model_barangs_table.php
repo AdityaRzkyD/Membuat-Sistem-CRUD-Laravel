@@ -19,6 +19,9 @@ return new class extends Migration
             $table->enum('jenis', ['komputer', 'laptop', 'mouse', 'keyboard', 'headset']);
             $table->integer('qty');
             $table->bigInteger('harga');
+            $table->bigInteger('hargatotal');
+            $table->bigInteger('diskon');
+            $table->bigInteger('total');
         });
     }
 

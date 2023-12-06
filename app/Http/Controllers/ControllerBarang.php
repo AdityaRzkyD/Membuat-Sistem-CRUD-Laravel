@@ -12,13 +12,10 @@ class ControllerBarang extends Controller
      */
     public function index()
     {
-        return view('Barang');
+        return view('hasil', [
+            'hasill' => ModelBarang::all()
+        ]);
         //
-    }
-
-    public function indexdua()
-    {
-        return view('Update');
     }
 
     /**
@@ -34,31 +31,41 @@ class ControllerBarang extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        $data = new ModelBarang();
 
-        $diskon = 0;
-        $harga_jual_setelah_diskon = 0;
+        $kode = $request->input('kode');
+        $nama = $request->input('nama');
+        $jenis = $request->input('jenis');
+        $qty = $request->input('qty');
+        $harga = $request->input('harga');
+        $hargatotal = $qty * $harga;
 
-        if ($data['harga'] >= 100000 && $data['harga'] < 200000) {
-            $diskon = 10;
-        } else if ($data['harga'] >= 200000 && $data['harga'] < 500000) {
-            $diskon = 20;
-        } else if ($data['harga'] >= 500000) {
-            $diskon = 50;
+        if ($hargatotal >= 100000 && $hargatotal < 200000) {
+            $diskon = $hargatotal * 0.1;
+        } else if ($hargatotal >= 200000 && $hargatotal < 500000) {
+            $diskon = $hargatotal * 0.2;
+        } else if ($hargatotal >= 500000) {
+            $diskon = $hargatotal * 0.5;
         }
 
-        $harga_jual_setelah_diskon = $data['harga'] * ((100 - $diskon) / 100);
+        $total = $hargatotal - $diskon;
 
-        $form = new ModelBarang();
-        $form->kode = $data['kode'];
-        $form->nama = $data['nama'];
-        $form->jenis = $data['jenis'];
-        $form->qty = $data['qty'];
-        $form->harga = $harga_jual_setelah_diskon;
+        ModelBarang::create([
+            'kode' => $kode,
+            'nama' => $nama,
+            'jenis' => $jenis,
+            'harga' => $harga,
+            'qty' => $qty,
+            'hargatotal' => $hargatotal,
+            'diskon' => $diskon,
+            'total' => $total,
+        ]);
 
-        $form->save();
+        echo "<script>alert('data berhasil masuk!')</script>";
 
-        return view('hasil', compact('data', 'diskon', 'harga_jual_setelah_diskon'));
+        return view('hasil',[
+            'hasill' => ModelBarang::all()
+        ]);
     }
 
     /**
@@ -73,7 +80,12 @@ class ControllerBarang extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {   
+    {
+        $data = ModelBarang::find($id);
+        
+        return view('Update', [
+            'data' => $data
+        ]);
         //
     }
 
@@ -82,31 +94,41 @@ class ControllerBarang extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = $request->all();
+        $data = ModelBarang::find($id);
 
-        $diskon = 0;
-        $harga_jual_setelah_diskon = 0;
+        $kode = $request->input('kode');
+        $nama = $request->input('nama');
+        $jenis = $request->input('jenis');
+        $qty = $request->input('qty');
+        $harga = $request->input('harga');
+        $hargatotal = $qty * $harga;
 
-        if ($data['harga'] >= 100000 && $data['harga'] < 200000) {
-            $diskon = 10;
-        } else if ($data['harga'] >= 200000 && $data['harga'] < 500000) {
-            $diskon = 20;
-        } else if ($data['harga'] >= 500000) {
-            $diskon = 50;
+        if ($hargatotal >= 100000 && $hargatotal < 200000) {
+            $diskon = $hargatotal * 0.1;
+        } else if ($hargatotal >= 200000 && $hargatotal < 500000) {
+            $diskon = $hargatotal * 0.2;
+        } else if ($hargatotal >= 500000) {
+            $diskon = $hargatotal * 0.5;
         }
 
-        $harga_jual_setelah_diskon = $data['harga'] * ((100 - $diskon) / 100);
+        $total = $hargatotal - $diskon;
 
-        $form = $request->update();
-        $form->kode = $data['kode'];
-        $form->nama = $data['nama'];
-        $form->jenis = $data['jenis'];
-        $form->qty = $data['qty'];
-        $form->harga = $harga_jual_setelah_diskon;
+        $data->update([
+            'kode' => $kode,
+            'nama' => $nama,
+            'jenis' => $jenis,
+            'harga' => $harga,
+            'qty' => $qty,
+            'hargatotal' => $hargatotal,
+            'diskon' => $diskon,
+            'total' => $total,
+        ]);
 
-        $form = ModelBarang::find($id)->update($data);
+        echo "<script>alert('data berhasil masuk!')</script>";
 
-        return view('hasil', compact('data', 'diskon', 'harga_jual_setelah_diskon'));
+        return view('hasil',[
+            'hasill' => ModelBarang::all()
+        ]);
         //
     }
 
@@ -115,6 +137,11 @@ class ControllerBarang extends Controller
      */
     public function destroy(string $id)
     {
+        ModelBarang::find($id)->delete();
+
+        return view('hasil',[
+            'hasill' => ModelBarang::all()
+        ]);
         //
     }
 }
